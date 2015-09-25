@@ -4,11 +4,8 @@ var eish = (function(myApp){
   $(document).on('ready page:load',function(){
     console.log("ready!");
     eish.load();
-    //eish.prep();
-    //eish.global = eish.prep();
   });
 
   return myApp;
-
 })(eish || {});
 
