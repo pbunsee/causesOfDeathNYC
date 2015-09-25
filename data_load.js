@@ -1,6 +1,6 @@
 var eish = (function(myApp){
 
-  myApp.load = function(){ var gil = ''; 
+  myApp.load = function(){ 
     var countRecs = 0;
     var fileName = "NYC_deathStats.csv";
     d3.csv(fileName,function(d) {
@@ -22,9 +22,11 @@ var eish = (function(myApp){
       parsed_data.forEach(function(d) {
         d.year = parseDate(d.year);
       });
+
       var introText = countRecs + " records loaded from file '" + fileName + "'";
       $('#intro').html(introText);
-      eish.global.parsed_data = parsed_data;
+
+      myApp.global.parsed_data = parsed_data;
       eish.prep();
     });
   };
