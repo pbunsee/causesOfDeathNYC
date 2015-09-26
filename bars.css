@@ -1,0 +1,137 @@
+svg {
+  width: 50%;
+}
+
+.chart {
+  float: left;
+  width: 50%;
+}
+
+svg#Cause {
+  width: 100%;
+}
+
+.chart-container {
+  margin-left: 50px;
+  margin-top: 50px;
+  font-size: 11px;
+}
+
+.chart rect {
+  fill: rgb(187, 187, 187);
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  //font-size: 12px;
+}
+
+.chart .current {
+  fill: #F5EDE7;
+  cursor: pointer;
+}
+
+.dataTable {
+  width: 25%;
+  float: right;
+  margin-left: 100px;
+  margin-right: 50px;
+}
+
+#Cause {
+  float: left;
+}
+
+.report-group {
+  width: 100%;
+  height: auto;
+}
+
+#Cause-outer div {
+  float: left;
+}
+.chart-container {
+  position: relative;
+}
+.popup {
+  background-color: #fff;
+  width: 200px;
+  border: 1px #ccc solid;
+  border-radius: 6px;
+  box-shadow: #333 2px 2px 4px;
+  padding: 8px;
+  font-family: arial, helvetica, sans-serif;
+}
+.popup h2 {
+  margin: 0 0 1rem 0;
+}
+
+div.tooltip {   
+  position: absolute;           
+  text-align: center;           
+  width: auto;
+  height: auto;
+  padding: 2px;             
+  font-family: arial, helvetica, sans-serif;
+  background-color: #fff;
+  border: 1px #ccc solid;
+  border-radius: 6px;
+  box-shadow: #333 2px 2px 4px;
+  padding: 8px;
+  pointer-events: none;         
+}
+
+#intro {
+  font-size: 11px;
+  margin-left: 1px;
+  padding: 5px;
+}
+
+#filterPanel {
+  width: 100%;
+  font-size: 10px;
+  font-weight: bold;
+  float: left;
+  background-color: #E6E6E6;
+  padding: 5px;
+}
+
+#filter-container {
+  width: 100%;
+  border: solid 1px;
+}
+
+#filterButtons {
+  float: right;
+}
+
+#filterInEffect {
+  float: left;
+}
+
+.filter-group {
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 2px;
+  display: inline-block;
+  font-size: 7px;
+  word-wrap: break-word;
+  width: 100%;
+  border: solid 1px;
+  margin: 2px;
+}
+.filter-group input[type="checkbox"] {
+  margin: 3px;
+}
+
+button {
+  padding: 5px;
+  font-size: 10px;
+}
+
