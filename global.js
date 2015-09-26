@@ -13,7 +13,7 @@ var eish = (function(myApp){
     deathsPerGender: '', 
     deathsPerEthnicity: '',
     grandTotal: 0, 
-    contextMenuShowing: false, 
+    contextMenuActive: false, 
     currentFilters: []
   }
 

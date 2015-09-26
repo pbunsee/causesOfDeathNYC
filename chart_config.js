@@ -210,24 +210,33 @@ var eish = (function(myApp){
              contextMenuShowing = false;
           })
           .on('mouseover', function(d) {      
+             eish.tooltip(d).show();
+             /*
              if ( contextMenuShowing == false ) {
                tooltipDiv.transition()        
                          .duration(200)      
                          .style("opacity", .9);      
-               tooltipDiv.html(handleDataType(d.value))  
+               tooltipDiv.html(eish.data().handleType(d.value))  
                          .style("left", (d3.event.pageX - 90) + "px")     
                          .style("top", (d3.event.pageY - 180) + "px");    
                 }
+             */
           })                  
           .on('mouseout', function(d) {       
+             eish.tooltip(d).hide();
+                /*
                 tooltipDiv.transition()        
                           .duration(500)      
                           .style("opacity", 0) 
+                */
           })
           .on('contextmenu', function(d) {       
+             eish.tooltip(d).hide();
+                /*
                 tooltipDiv.transition()        
                           .duration(0)      
                           .style("opacity", 0) 
+                */
           });
     
     
@@ -314,6 +323,7 @@ var eish = (function(myApp){
   }
 
   myApp.drawAllCharts = function(){
+    eish.tooltip().init();
     var whichCharts = eish.chartConfig();
     Object.keys(whichCharts).forEach(function(d,i){ 
             if ( whichCharts[d] instanceof Object ) 
