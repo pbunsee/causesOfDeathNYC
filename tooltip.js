@@ -15,8 +15,8 @@ var eish = (function(myApp){
                   .duration(200)      
                   .style("opacity", .9);      
         tooltipDiv.html(eish.data().handleType(d.value))  
-                  .style("left", (d3.event.pageX - 90) + "px")     
-                  .style("top", (d3.event.pageY - 180) + "px");    
+                  .style("left", (d3.event.pageX - 50) + "px")     
+                  .style("top", (d3.event.pageY - 90) + "px");    
       }
     };
     
