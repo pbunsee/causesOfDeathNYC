@@ -37,6 +37,10 @@ var eish = (function(myApp){
                                               .reduceSum(function(d) { return +d.count; })
                                               .value();
     
+      //var filter = eish.global.genderDim, 
+          //whichFilter = "eish.global.genderDim";
+    //eish.print_console(filter, whichFilter);
+    eish.drawAllCharts();
     return myApp.global;
   };
 
