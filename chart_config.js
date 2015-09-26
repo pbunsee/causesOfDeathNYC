@@ -122,11 +122,6 @@ var eish = (function(myApp){
 
     var addSVG = function(){
 
-      var deco = decoration(); 
-      console.log("deco"); 
-      console.dir(deco); 
-      console.log("deco ticksReq"); 
-      console.dir(deco.ticksReq); 
       var whichChart = "#" + xAxisTitle;
       //var removeChart = d3.select(whichChart)
       //removeChart.selectAll('*').remove();
@@ -140,9 +135,9 @@ var eish = (function(myApp){
     
       var chart = svg.append('g')
                      .attr({ transform: function (d){ 
-                             return 'translate(' + decoration().padding.left + ',' + decoration().padding.top + ')'; 
-                                                  } 
-                          });
+                           return 'translate(' + decoration().padding.left + ',' + decoration().padding.top + ')'; 
+                                                    } 
+                           });
    
       if ( decoration().ticksReq >= 20 ) {
           var rotateText = -65,
@@ -169,7 +164,7 @@ var eish = (function(myApp){
  /* temp out
       if ( decoration().ticksReq < 20 ) {
         chart.selectAll("text")  
-             .call(wrap, scales.x.rangeBand());
+             .call(wrap, decoration().scales.x.rangeBand());
       }
         // note that the above call to wrap method is taking the current context (i.e. selectAll("text") )
         // and x.rangeBand as parameters
@@ -209,11 +204,124 @@ var eish = (function(myApp){
            .style("text-anchor", "middle")
            .style("font-size", "12px") 
            .text(function(){ return xAxisTitle; });
+      appendBars(chart);
+    }
+
+    var appendBars = function(chart){
+      var bars = chart.selectAll('g.bar-group')
+                      .data(plotValues)
+                      .enter()
+                      .append('g') 
+                      .attr({ transform: function (d, i) 
+                                { return 'translate(' + decoration().scales.x(d.key) + ', 0)'; }, 
+                              class: 'bar-group'
+                            })
+          .on('click', function(d){
+             d3.select(".popup").remove();
+             contextMenuShowing = false;
+          })
+          .on('mouseover', function(d) {      
+             if ( contextMenuShowing == false ) {
+               tooltipDiv.transition()        
+                         .duration(200)      
+                         .style("opacity", .9);      
+               tooltipDiv.html(handleDataType(d.value))  
+                         .style("left", (d3.event.pageX - 90) + "px")     
+                         .style("top", (d3.event.pageY - 180) + "px");    
+                }
+          })                  
+          .on('mouseout', function(d) {       
+                tooltipDiv.transition()        
+                          .duration(500)      
+                          .style("opacity", 0) 
+          })
+          .on('contextmenu', function(d) {       
+                tooltipDiv.transition()        
+                          .duration(0)      
+                          .style("opacity", 0) 
+          });
+    
+    
+      bars.append('rect')
+          .on('click', function(d){
+             var d3_target = d3.select(d3.event.target);
+             d = d3_target.datum();
+             var descriptor = this.getAttribute('class');
+             descriptor = descriptor.replace('bar ', '').toLowerCase();
+             descriptor = descriptor.replace('tomato ', '').toLowerCase();
+    
+             if ( descriptor == 'causes_top5') { descriptor = 'cause' }
+    
+             if ( descriptor == 'year') 
+             { 
+               //convert the selected year value toISOString();
+               //what is the current selected year?
+               var selectedYear = "'" + d.key.toISOString() + "'";
+               console.log("selectedYear" + selectedYear);
+               //build and return a statement (to be evaluated in FuncDo) 
+               //which will convert the crossfilter year value toISOString();
+               //and compare the selectedYear and the crossfilter year - if matching, return d;
+               descriptor = descriptor + "Dim.filterFunction(function(d){" + 
+                            " if ( d.toISOString() == " + selectedYear + " ) " + 
+                            " { return d; } " +
+                            "})";
+               console.log("descriptor is now: " + descriptor);
+             }
+             else
+             {
+               descriptor = descriptor + "Dim.filterExact('" + d.key + "')";
+             }
+    
+             if ( this.getAttribute('class') == 'bar tomato ' + xAxisTitle )
+             { 
+               $(this).css('fill', 'rgb(187, 187, 187)'); 
+               var classVal = 'bar ' + xAxisTitle; 
+               this.setAttribute('class', classVal); 
+               if ( $.inArray(descriptor, currentFilters) > -1 )
+               {
+                 //remove the filter from the currentFilters
+                 var pos = currentFilters.indexOf(descriptor);
+                 if (pos > -1) 
+                 {
+                   currentFilters.splice(pos, 1);
+                   refreshFilterMsg();
+                 }
+               }
+               descriptor = '';
+             }
+             else
+             { 
+               $(this).css('fill', 'tomato'); 
+               if ( $.inArray(descriptor, currentFilters) == -1 )
+               {
+               currentFilters.push(descriptor);
+               refreshFilterMsg();
+               }
+               var classVal = 'bar tomato ' + xAxisTitle; 
+               this.setAttribute('class', classVal); 
+               var funcDo = new Function(descriptor);
+               console.log("figuring this out");
+               console.log(descriptor);
+               console.log(funcDo);
+               return(funcDo());
+             }
+            })
+          .attr({
+            y: decoration().chartHeight,
+            height: 0,
+            width: function(d){ return decoration().scales.x.rangeBand(d) - 2; },
+            class: function(d){ return 'bar ' + xAxisTitle; }
+            })
+          .transition()
+          .duration(2000)
+          .attr({
+            y: function(d){ return decoration().scales.y(d.value); },
+            height: function(d){ return decoration().chartHeight - decoration().scales.y(d.value); }
+          });
     }
 
     addSVG();
-    return {decoration: decoration, addSVG: addSVG };
-      
+    return {decoration: decoration, addSVG: addSVG, appendBars: appendBars };
   }
 
   myApp.drawAllCharts = function(){
