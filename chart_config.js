@@ -259,7 +259,7 @@ var eish = (function(myApp){
                //build and return a statement (to be evaluated in FuncDo) 
                //which will convert the crossfilter year value toISOString();
                //and compare the selectedYear and the crossfilter year - if matching, return d;
-               descriptor = descriptor + "Dim.filterFunction(function(d){" + 
+               descriptor = "eish.global." + descriptor + "Dim.filterFunction(function(d){" + 
                             " if ( d.toISOString() == " + selectedYear + " ) " + 
                             " { return d; } " +
                             "})";
@@ -267,7 +267,7 @@ var eish = (function(myApp){
              }
              else
              {
-               descriptor = descriptor + "Dim.filterExact('" + d.key + "')";
+               descriptor = "eish.global." + descriptor + "Dim.filterExact('" + d.key + "')";
              }
     
              if ( this.getAttribute('class') == 'bar tomato ' + xAxisTitle )
@@ -275,14 +275,14 @@ var eish = (function(myApp){
                $(this).css('fill', 'rgb(187, 187, 187)'); 
                var classVal = 'bar ' + xAxisTitle; 
                this.setAttribute('class', classVal); 
-               if ( $.inArray(descriptor, currentFilters) > -1 )
+               if ( $.inArray(descriptor, eish.global.currentFilters) > -1 )
                {
                  //remove the filter from the currentFilters
-                 var pos = currentFilters.indexOf(descriptor);
+                 var pos = eish.global.currentFilters.indexOf(descriptor);
                  if (pos > -1) 
                  {
-                   currentFilters.splice(pos, 1);
-                   refreshFilterMsg();
+                   eish.global.currentFilters.splice(pos, 1);
+                   eish.filter().refreshMsg();
                  }
                }
                descriptor = '';
@@ -290,18 +290,23 @@ var eish = (function(myApp){
              else
              { 
                $(this).css('fill', 'tomato'); 
-               if ( $.inArray(descriptor, currentFilters) == -1 )
+               if ( $.inArray(descriptor, eish.global.currentFilters) == -1 )
                {
-               currentFilters.push(descriptor);
-               refreshFilterMsg();
+               eish.global.currentFilters.push(descriptor);
+               eish.filter().refreshMsg();
                }
                var classVal = 'bar tomato ' + xAxisTitle; 
                this.setAttribute('class', classVal); 
                var funcDo = new Function(descriptor);
-               console.log("figuring this out");
-               console.log(descriptor);
                console.log(funcDo);
-               return(funcDo());
+               if ( funcDo instanceof Function ) 
+                 { 
+                   return(funcDo());
+                 }
+               else
+                 {
+                   console.log("Not a function - cannot execute funcDo()");
+                 }
              }
             })
           .attr({
