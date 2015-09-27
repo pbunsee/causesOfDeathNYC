@@ -298,10 +298,15 @@ var eish = (function(myApp){
                var classVal = 'bar tomato ' + xAxisTitle; 
                this.setAttribute('class', classVal); 
                var funcDo = new Function(descriptor);
-               console.log("figuring this out");
-               console.log(descriptor);
                console.log(funcDo);
-               return(funcDo());
+               if ( funcDo instanceof Function ) 
+                 { 
+                   return(funcDo());
+                 }
+               else
+                 {
+                   console.log("Not a function - cannot execute funcDo()");
+                 }
              }
             })
           .attr({

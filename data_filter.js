@@ -42,8 +42,8 @@ var eish = (function(myApp){
       if ( eish.global.persistMode === 'use localStorage' )
         {
           console.log("applyFilters with currentFilters in localStorage: ");
-          console.dir(filterSet);
-          localStorage.setItem("currentFilters", JSON.stringify(filterSet)); 
+          console.dir(eish.global.currentFilters);
+          localStorage.setItem("currentFilters", JSON.stringify(eish.global.currentFilters)); 
         } 
       else
         {
@@ -63,8 +63,8 @@ var eish = (function(myApp){
 
     var clear = function(){
       console.log("in Filters class clear function - currentFilters");
-      console.dir(currentFilters);
-      global.currentFilters = [];
+      console.dir(eish.global.currentFilters);
+      eish.global.currentFilters = [];
       resetFilters();
       if ( eish.global.persistMode === 'use localStorage' )
         {
@@ -108,7 +108,6 @@ var eish = (function(myApp){
             return ' | ' + stripStr;
           });
           $('#filterInEffect').html(msgFilters);
-          //$('#filterInEffect').html(eish.global.currentFilters);
         }
     };
 
