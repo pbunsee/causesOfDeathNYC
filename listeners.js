@@ -1,13 +1,11 @@
 $('#applyFilters').on('click',function(){
   console.log("applying filters...");
+  eish.filter().set();
   eish.drawAllCharts();
-  //var persistFilters = new Filters(currentFilters);
-  //persistFilters.set(currentFilters);
 });
   
 $('#clearFilters').on('click',function(){
   console.log("clearing filters...");
-  //var persistFilters = new Filters(currentFilters);
-  //currentFilters = persistFilters.clear(currentFilters);
+  eish.filter().clear();
 });
 
