@@ -1,5 +1,41 @@
 var eish = (function(myApp){
 
+  var makeLegend = function(){
+    var whichArc = ".arc";
+    var canvas = d3.select(whichArc);
+    var colorScale = d3.scale.category10();
+    var legendRectSize = 18;
+    var legendSpacing = 4;
+
+    var legend = canvas.selectAll('.legend')
+      .data(colorScale.domain())
+      .enter()
+      .append('g')
+      .attr('class', 'legend')
+      .attr('transform', function(d, i) {
+        var height = legendRectSize + legendSpacing;
+        console.log("height: " + height);
+        console.log("colorScale.domain().length: " + colorScale.domain().length);
+        var offset =  height * colorScale.domain().length / 2;
+        console.log("offset: " + offset);
+        var horz = -2 * legendRectSize;
+        console.log("horz: " + horz);
+        var vert = i * height - offset;
+        console.log("vert: " + vert);
+        return 'translate(' + horz + ',' + vert + ')';
+      });
+
+    legend.append('rect')
+      .attr('width', legendRectSize)
+      .attr('height', legendRectSize)
+      .style("fill", function (d){ return d.children ? "#fff" : colorScale(d) ; })
+      .style("stroke", function (d){ return d.children ? "#fff" : colorScale(d) ; });
+    
+    legend.append('text')
+      .attr('x', legendRectSize + legendSpacing)
+      .attr('y', legendRectSize - legendSpacing)
+  };
+
   myApp.drawAllPie = function(){
     //eish.tooltip().init();
     var whichCharts = eish.chartConfig();
@@ -46,7 +82,6 @@ var eish = (function(myApp){
         .value(function(d) { return d.value; });
     
     var svg = d3.select("svg#" + whichDim)
-    //var svg = d3.select().append("svg")
         .attr("width", width)
         .attr("height", height)
       .append("g")
@@ -59,13 +94,22 @@ var eish = (function(myApp){
     
       g.append("path")
           .attr("d", arc)
-          .style("fill", function(d) { return color(d.key); });
+          .attr("data-legend", function(d){return d.data.key})
+          .style("fill", function(d) { return color(d.data.key); });
     
       g.append("text")
           .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
           .attr("dy", ".35em")
           .style("text-anchor", "middle")
-          .text(function(d) { return d.key; });
+          .text(function(d) { return eish.data().handleType(d.data.key); });
+
+ var legend;
+ legend = svg.append("g")
+            .attr("class", "legend")
+            .attr("transform", "translate(50,30)")
+            .style("font-size", "12px");
+            //.call(d3.legend);
+  //makeLegend();
   }
 
   return myApp;
