@@ -150,14 +150,12 @@ var eish = (function(myApp){
              .attr("dy", shiftDY)
              .attr("transform", "rotate(" + rotateText + ")" );
     
- /* temp out
       if ( decoration().ticksReq < 20 ) {
         chart.selectAll("text")  
-             .call(wrap, decoration().scales.x.rangeBand());
+             .call(eish.wrap(), decoration().scales.x.rangeBand());
       }
         // note that the above call to wrap method is taking the current context (i.e. selectAll("text") )
         // and x.rangeBand as parameters
-*/
     
       chart.append('g') 
            .attr({ class: 'y axis', height: decoration().chartHeight })
