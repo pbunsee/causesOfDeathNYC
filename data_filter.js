@@ -1,6 +1,25 @@
 var eish = (function(myApp){
 
-  myApp.filter = function(){ 
+  myApp.persistence = function(){ 
+    var supports_localStorage = function(){
+      try {
+        return 'localStorage' in window && window['localStorage'] !== null;
+      } catch (e) {
+        return false;
+      }
+    };
+    
+    var getFilterCookie = function(){
+      Cookies.get('currentFilters');
+    };
+    
+    var setFilterCookie = function(currentFilters){
+      if ( currentFilters != '' && currentFilters != null )
+      {
+        Cookies.set('currentFilters', currentFilters);
+      }
+    };
+
     var init = function(){
       if ( supports_localStorage() )
         {
@@ -14,6 +33,34 @@ var eish = (function(myApp){
           eish.global.persistMode = 'use cookies';
           return 'use cookies';
         }
+    };
+    return { init: init, setFilterCookie: setFilterCookie };
+
+  };
+    //persistence();
+
+  myApp.filter = function(){ 
+    var resetFilters = function(){
+        /* This function takes care of the following:
+        eish.global.genderDim.filterAll();
+        eish.global.causeDim.filterAll();
+        eish.global.yearDim.filterAll();
+        eish.global.ethnicityDim.filterAll();*/
+  
+        var hashFilters = new Object();
+        hashFilters["eish.global.yearDim"] = Object(eish.global.yearDim);
+        hashFilters["eish.global.genderDim"] = Object(eish.global.genderDim);
+        hashFilters["eish.global.ethnicityDim"] = Object(eish.global.ethnicityDim);
+        hashFilters["eish.global.causeDim"] = Object(eish.global.causeDim);
+        Object.keys(hashFilters).forEach(function(d,i){ 
+                                                        hashFilters[d].filterAll();
+                                                      });
+  
+    };
+
+    var init = function(){
+      resetFilters();
+      eish.persistence.init();
     };
 
     var get = function(){
@@ -35,7 +82,7 @@ var eish = (function(myApp){
         {
           getFilterCookie('currentFilters'); 
         }
-      eish.filter.refreshMsg();
+      eish.filter().refreshMsg();
     };
 
     var set = function(){
@@ -48,21 +95,14 @@ var eish = (function(myApp){
       else
         {
           console.log("applyFilters with currentFilters in cookies: ");
-          console.dir(filterSet);
-          setFilterCookie(filterSet); 
+          console.dir(eish.global.currentFilters);
+          eish.persistence().setFilterCookie(eish.global.currentFilters); 
         }
-      eish.filter.refreshMsg();
-    };
-
-    var remove = function(){
-      if ( eish.global.persistMode === 'use cookies' )
-        {}
-      else
-        {}
+      eish.filter().refreshMsg();
     };
 
     var clear = function(){
-      console.log("in Filters class clear function - currentFilters");
+      console.log("in clear function - currentFilters");
       console.dir(eish.global.currentFilters);
       eish.global.currentFilters = [];
       resetFilters();
@@ -72,7 +112,7 @@ var eish = (function(myApp){
         }
       else
         {
-          setFilterCookie();
+          eish.persistence().setFilterCookie();
         }
     };
 
@@ -111,7 +151,7 @@ var eish = (function(myApp){
         }
     };
 
-    return { init: init, get: get, set: set, remove: remove, clear: clear, refreshMsg: refreshMsg };
+    return { init: init, get: get, set: set, clear: clear, refreshMsg: refreshMsg };
   }
 
   return myApp;
