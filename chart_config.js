@@ -109,6 +109,40 @@ var eish = (function(myApp){
              }
     }
 
+    var wrap = function(text, width){
+      //var wrapThis = text;
+      //console.dir(wrapThis);
+      text.each(function(){
+      var text = d3.select(this),
+          words = text.text().split(/\s+/).reverse(),
+          word,
+          line = [],
+          lineNumber = 0,
+          lineHeight = 1.1, // ems
+          y = text.attr("y"),
+          dy = parseFloat(text.attr("dy")),
+          tspan = text.text(null)
+                      .append("tspan")
+                      .attr("x", 0)
+                      .attr("y", y)
+                      .attr("dy", dy + "em");
+        while (word = words.pop()) {
+          line.push(word);
+          tspan.text(line.join(" "));
+          if (tspan.node().getComputedTextLength() > width) {
+            line.pop();
+            tspan.text(line.join(" "));
+            line = [word];
+            tspan = text.append("tspan")
+                        .attr("x", 0)
+                        .attr("y", y)
+                        .attr("dy", ++lineNumber * lineHeight + dy + "em")
+                        .text(word);
+          }
+        }
+      });
+    };
+
     var addSVG = function(){
 
       var whichChart = "#" + xAxisTitle;
@@ -150,14 +184,12 @@ var eish = (function(myApp){
              .attr("dy", shiftDY)
              .attr("transform", "rotate(" + rotateText + ")" );
     
- /* temp out
       if ( decoration().ticksReq < 20 ) {
         chart.selectAll("text")  
              .call(wrap, decoration().scales.x.rangeBand());
       }
         // note that the above call to wrap method is taking the current context (i.e. selectAll("text") )
         // and x.rangeBand as parameters
-*/
     
       chart.append('g') 
            .attr({ class: 'y axis', height: decoration().chartHeight })
