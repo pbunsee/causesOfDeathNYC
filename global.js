@@ -14,6 +14,7 @@ var eish = (function(myApp){
     deathsPerEthnicity: '',
     grandTotal: 0, 
     contextMenuActive: false, 
+    persistMode: '', 
     currentFilters: []
   }
 
