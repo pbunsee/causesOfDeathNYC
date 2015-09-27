@@ -7,5 +7,6 @@ $('#applyFilters').on('click',function(){
 $('#clearFilters').on('click',function(){
   console.log("clearing filters...");
   eish.filter().clear();
+  eish.drawAllCharts();
 });
 
