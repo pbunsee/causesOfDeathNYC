@@ -1,6 +1,9 @@
 var eish = (function(myApp){
 
   myApp.wrap = function(text, width){
+    var wrapThis = text;
+    console.dir(wrapThis);
+/*
     text.each(function(){
       var text = d3.select(this),
           words = text.text().split(/\s+/).reverse(),
@@ -30,6 +33,7 @@ var eish = (function(myApp){
         }
       }
     });
+*/
   };
 
   return myApp;
