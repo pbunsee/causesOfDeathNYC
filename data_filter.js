@@ -86,7 +86,29 @@ var eish = (function(myApp){
           $('#filterInEffect').html(defaultMsg);
         }
         {
-          $('#filterInEffect').html(eish.global.currentFilters);
+          var msgFilters =  eish.global.currentFilters.map(function(d){ 
+            var stripStr = d;
+            if ( stripStr.indexOf("year") >= 0 )
+              { 
+                stripStr = stripStr.replace('eish.global.yearDim.filterFunction(function(d){ if ( d.toISOString() == ','');
+                stripStr = stripStr.replace(' )  { return d; } })','');
+                var tempStr = stripStr.replace('year','');
+                tempStr = tempStr.replace("'","");
+                tempStr = tempStr.replace('Dim.filterFunction(function(d){ if ( d.toISOString() == ','');
+                tempStr = tempStr.replace(/\)+$/,'');
+                tempStr = tempStr.substr(0,4);
+                stripStr = 'year: ' + tempStr;
+              }
+            else
+              { 
+                stripStr = stripStr.replace('eish.global.','');
+                stripStr = stripStr.replace('Dim.filterExact(',': ');
+                stripStr = stripStr.replace(')',''); 
+              }
+            return ' | ' + stripStr;
+          });
+          $('#filterInEffect').html(msgFilters);
+          //$('#filterInEffect').html(eish.global.currentFilters);
         }
     };
 
