@@ -10,3 +10,13 @@ $('#clearFilters').on('click',function(){
   eish.drawAllCharts();
 });
 
+$('#drawPie').on('click',function(){
+  console.log("drawing pie charts...");
+  eish.drawAllPie();
+});
+
+$('#drawBar').on('click',function(){
+  console.log("drawing bar charts...");
+  eish.drawAllCharts();
+});
+

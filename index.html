@@ -8,16 +8,24 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <script src="cookies.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.3.0/d3-legend.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap-theme.min.css">
   <link rel="stylesheet" type="text/css" href="main.css">
-  <link rel="stylesheet" type="text/css" href="bars.css">
+  <link rel="stylesheet" type="text/css" href="bar.css">
+  <link rel="stylesheet" type="text/css" href="pie.css">
 </head>
 </head>
 <body>
   <div id="intro"></div>
   <div id="filterPanel">
     <div id="filterButtons">
+      <button type="button" class="btn btn-info btn-xs" id="drawBar">
+        Draw Bar Charts
+      </button>
+      <button type="button" class="btn btn-info btn-xs" id="drawPie">
+        Draw Pie Charts
+      </button>
       <button type="button" class="btn btn-info btn-xs" id="clearFilters">
         Clear Filters
       </button>
@@ -57,6 +65,7 @@
   <script src="global.js"></script>
   <script src="data_load.js"></script>
   <script src="data_prep.js"></script>
+  <script src="chart_pie.js"></script>
   <script src="eish.js"></script>
 </body>
 </html>

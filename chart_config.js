@@ -369,6 +369,8 @@ var eish = (function(myApp){
               var chartData = directives[d];
               var xAxisTitle = directives["xAxisTitle"];
               var yAxisTitle = directives["yAxisTitle"];
+              var whichOuter = "#" + xAxisTitle + '-outer';
+              $(whichOuter).remove();
               var newDiv = $('<div>')
               $(newDiv).attr('id',xAxisTitle+'-outer').addClass('report-group'); 
               $('.chart-container').append( $(newDiv) );
