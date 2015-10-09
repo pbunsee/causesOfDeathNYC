@@ -4,7 +4,9 @@
     <meta charset="utf-8">
     <title>Step 5 - Adding Tooltips</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+    <!-- 
     <link rel="stylesheet" href="normalize.css">
+    -->
     <style>
       #chart {                                                          /* NEW */
         height: 360px;                                                  /* NEW */
@@ -77,10 +79,18 @@
         tooltip.append('div')                                           // NEW
           .attr('class', 'percent');                                    // NEW
 
-        d3.csv('weekdays.csv', function(error, dataset) {
-          dataset.forEach(function(d) {
-            d.count = +d.count;
-          });
+var dataset = [
+          { label: 'Abulia', count: 10 },
+          { label: 'Betelgeuse', count: 20 },
+          { label: 'Cantaloupe', count: 30 },
+          { label: 'Dijkstra', count: 40 }
+        ];
+
+
+        //d3.csv('weekdays.csv', function(error, dataset) {
+          //dataset.forEach(function(d) {
+            //d.count = +d.count;
+          //});
 
           var path = svg.selectAll('path')
             .data(pie(dataset))
@@ -137,7 +147,7 @@
             .attr('y', legendRectSize - legendSpacing)
             .text(function(d) { return d; });
 
-        });
+        //});
 
       })(window.d3);
     </script>

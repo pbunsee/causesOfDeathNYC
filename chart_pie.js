@@ -97,19 +97,57 @@ var eish = (function(myApp){
           .attr("data-legend", function(d){return d.data.key})
           .style("fill", function(d) { return color(d.data.key); });
     
+/*
       g.append("text")
           .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
           .attr("dy", ".35em")
           .style("text-anchor", "middle")
           .text(function(d) { return eish.data().handleType(d.data.key); });
+*/
 
- var legend;
- legend = svg.append("g")
-            .attr("class", "legend")
-            .attr("transform", "translate(50,30)")
-            .style("font-size", "12px");
-            //.call(d3.legend);
-  //makeLegend();
+   var width = 360;
+        var height = 360;
+        var radius = Math.min(width, height) / 2;
+        var donutWidth = 75;
+        var legendRectSize = 18;
+        var legendSpacing = 4;
+
+
+    var legend = svg.selectAll('.legend')
+            .data(color.domain())
+            .enter()
+            .append('g')
+            .attr('class', 'legend')
+            .attr('transform', function(d, i) {
+              var height = legendRectSize + legendSpacing;
+              var offset =  height * color.domain().length / 2;
+              //var horz = -2 * legendRectSize;
+              var horz = 6.5 * legendRectSize;
+              var vert = i * height - offset;
+              return 'translate(' + horz + ',' + vert + ')';
+            });
+
+          legend.append('rect')
+            .attr('width', legendRectSize)
+            .attr('height', legendRectSize)
+            .style('fill', color)
+            .style('stroke', color);
+
+          legend.append('text')
+            .attr('x', legendRectSize + legendSpacing)
+            .attr('y', legendRectSize - legendSpacing)
+            .text(function(d) { return d; });
+
+/*
+     //var legend;
+     var legend = svg.append("g")
+                .attr("class", "legend")
+                .attr("transform", "translate(50,30)")
+                .style("font-size", "12px");
+                //.call(d3.legend);
+      //makeLegend();
+*/
+
   }
 
   return myApp;
