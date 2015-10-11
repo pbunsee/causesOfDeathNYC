@@ -37,7 +37,7 @@ var eish = (function(myApp){
                                               .reduceSum(function(d) { return +d.count; })
                                               .value();
     
-    eish.drawAllCharts();
+    eish.drawAllVertBarCharts();
     return myApp.global;
   };
 

@@ -36,7 +36,7 @@ var eish = (function(myApp){
       .attr('y', legendRectSize - legendSpacing)
   };
 
-  myApp.drawAllPie = function(){
+  myApp.drawAllPieCharts = function(){
     //eish.tooltip().init();
     var whichCharts = eish.chartConfig();
     Object.keys(whichCharts).forEach(function(d,i){ 
@@ -105,15 +105,15 @@ var eish = (function(myApp){
           .text(function(d) { return eish.data().handleType(d.data.key); });
 */
 
-   var width = 360;
-        var height = 360;
-        var radius = Math.min(width, height) / 2;
-        var donutWidth = 75;
-        var legendRectSize = 18;
-        var legendSpacing = 4;
+      var width = 360;
+      var height = 1360;
+      var radius = Math.min(width, height) / 2;
+      var donutWidth = 75;
+      var legendRectSize = 18;
+      var legendSpacing = 4;
 
 
-    var legend = svg.selectAll('.legend')
+      var legend = svg.selectAll('.legend')
             .data(color.domain())
             .enter()
             .append('g')
@@ -121,7 +121,6 @@ var eish = (function(myApp){
             .attr('transform', function(d, i) {
               var height = legendRectSize + legendSpacing;
               var offset =  height * color.domain().length / 2;
-              //var horz = -2 * legendRectSize;
               var horz = 6.5 * legendRectSize;
               var vert = i * height - offset;
               return 'translate(' + horz + ',' + vert + ')';
@@ -136,7 +135,7 @@ var eish = (function(myApp){
           legend.append('text')
             .attr('x', legendRectSize + legendSpacing)
             .attr('y', legendRectSize - legendSpacing)
-            .text(function(d) { return d; });
+            .text(function(d) { return eish.data().handleType(d); });
 
 /*
      //var legend;
